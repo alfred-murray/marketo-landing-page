@@ -16,6 +16,22 @@ declare global {
   }
 }
 
+const PUBLIC_SUFFIX_HOSTS = [
+  "vercel.app",
+  "netlify.app",
+  "github.io",
+  "pages.dev",
+];
+
+function getMunchkinDomainLevel(hostname: string): number {
+  const parts = hostname.split(".").filter(Boolean);
+  if (parts.length <= 1) return parts.length || 1;
+  const isPublicSuffix = PUBLIC_SUFFIX_HOSTS.some((suffix) =>
+    hostname.endsWith(`.${suffix}`),
+  );
+  return isPublicSuffix ? parts.length : 2;
+}
+
 /**
  * Loads Marketo's Munchkin tracker and initializes it with `cookieAnon: true`
  * so anonymous visitors are tracked immediately on first page load. This is
@@ -45,7 +61,13 @@ export function MunchkinScript() {
         if (typeof window === "undefined" || !window.Munchkin) return;
         window.Munchkin.init(munchkinId, {
           cookieAnon: true,
-          domainLevel: 2,
+          // domainLevel = number of trailing hostname labels Munchkin uses
+          // for the cookie's Domain attribute. The default of 2 sets the
+          // cookie on `.vercel.app`, which browsers reject because vercel.app
+          // is on the Public Suffix List. Use the full hostname on PSL-listed
+          // hosts (vercel.app, netlify.app, github.io, localhost) so the
+          // cookie actually gets stored.
+          domainLevel: getMunchkinDomainLevel(window.location.hostname),
           clickTime: 0,
           asyncOnly: true,
         });
