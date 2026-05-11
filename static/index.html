@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#05070d" />
+    <title>Lattice — Banking-grade infrastructure for modern fintechs</title>
+    <meta
+      name="description"
+      content="Issue cards, move money, and stay compliant on a single API. Lattice powers the next generation of fintech with banking-grade rails and millisecond observability."
+    />
+    <meta property="og:title" content="Lattice — Banking-grade infrastructure for modern fintechs" />
+    <meta property="og:description" content="Issue cards, move money, and stay compliant on a single API." />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Re-creates tailwind.config.ts so utility classes match the original design tokens.
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              bg: { DEFAULT: "#05070d", subtle: "#0a0e18", raised: "#0f1422" },
+              ink: { DEFAULT: "#e7ecf5", muted: "#9aa6bd", dim: "#5e6a85" },
+              border: {
+                DEFAULT: "rgba(255,255,255,0.08)",
+                strong: "rgba(255,255,255,0.14)",
+              },
+              accent: { DEFAULT: "#6ee7a8", strong: "#22c55e", glow: "#34d399" },
+              navy: { 900: "#05070d", 800: "#0a0e18", 700: "#0f1422", 600: "#141a2c" },
+            },
+            fontFamily: {
+              sans: ["Inter", "ui-sans-serif", "system-ui"],
+              display: ["Inter", "ui-sans-serif", "system-ui"],
+              mono: ["ui-monospace", "SFMono-Regular", "JetBrains Mono", "Menlo", "monospace"],
+            },
+            backgroundImage: {
+              "grid-fade":
+                "radial-gradient(ellipse at top, rgba(110,231,168,0.12), transparent 60%), radial-gradient(ellipse at bottom, rgba(56,189,248,0.10), transparent 60%)",
+              mesh:
+                "radial-gradient(at 20% 10%, rgba(110,231,168,0.18) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(56,189,248,0.18) 0px, transparent 50%), radial-gradient(at 50% 100%, rgba(168,85,247,0.18) 0px, transparent 50%)",
+            },
+            boxShadow: {
+              glow:
+                "0 0 0 1px rgba(110,231,168,0.25), 0 10px 40px -10px rgba(110,231,168,0.45)",
+              card:
+                "0 1px 0 0 rgba(255,255,255,0.04) inset, 0 30px 60px -30px rgba(0,0,0,0.6)",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0px)" },
+                "50%": { transform: "translateY(-8px)" },
+              },
+              shimmer: {
+                "0%": { backgroundPosition: "-200% 0" },
+                "100%": { backgroundPosition: "200% 0" },
+              },
+            },
+            animation: {
+              float: "float 6s ease-in-out infinite",
+              shimmer: "shimmer 8s linear infinite",
+            },
+          },
+        },
+      };
+    </script>
+
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="min-h-screen bg-bg text-ink antialiased font-sans">
+    <!-- ============================== Navbar ============================== -->
+    <header
+      id="site-header"
+      class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-all duration-300"
+    >
+      <nav class="container-page flex h-16 items-center justify-between">
+        <a href="#" class="flex items-center gap-2">
+          <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="navLogo" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#6ee7a8" />
+                <stop offset="100%" stop-color="#38bdf8" />
+              </linearGradient>
+            </defs>
+            <rect width="64" height="64" rx="14" fill="url(#navLogo)" opacity="0.15" />
+            <path d="M16 40 L32 14 L48 40 Z" fill="url(#navLogo)" />
+            <path d="M22 44 H42" stroke="url(#navLogo)" stroke-width="4" stroke-linecap="round" />
+          </svg>
+          <span class="font-display text-base font-semibold tracking-tight text-ink">Lattice</span>
+        </a>
+
+        <div class="hidden items-center gap-8 md:flex">
+          <a href="#product" class="text-sm text-ink-muted transition hover:text-ink">Product</a>
+          <a href="#features" class="text-sm text-ink-muted transition hover:text-ink">Features</a>
+          <a href="#pricing" class="text-sm text-ink-muted transition hover:text-ink">Pricing</a>
+          <a href="#customers" class="text-sm text-ink-muted transition hover:text-ink">Customers</a>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <a href="#" class="hidden rounded-md px-3 py-2 text-sm text-ink-muted transition hover:text-ink md:block">Sign in</a>
+          <a
+            href="#contact"
+            class="group inline-flex items-center gap-1 rounded-md bg-accent px-3.5 py-2 text-sm font-semibold text-navy-900 shadow-glow transition hover:brightness-110"
+          >
+            Get a demo
+            <svg class="h-3.5 w-3.5 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="relative">
+      <!-- =============================== Hero =============================== -->
+      <section class="relative overflow-hidden pb-24 pt-40 sm:pb-32 sm:pt-44">
+        <div class="absolute inset-0 -z-10 bg-mesh opacity-90"></div>
+        <div
+          class="absolute inset-0 -z-10 grid-bg opacity-[0.35]"
+          style="-webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, black, transparent); mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, black, transparent);"
+        ></div>
+
+        <div class="container-page">
+          <div class="reveal mx-auto max-w-3xl text-center">
+            <a href="#" class="inline-flex items-center gap-2 rounded-full border border-border bg-navy-800/50 px-3 py-1 text-xs text-ink-muted backdrop-blur">
+              <span class="inline-block h-1.5 w-1.5 rounded-full bg-accent" style="box-shadow: 0 0 10px 2px rgba(110,231,168,0.7)"></span>
+              New: Real-time card issuance API in private beta
+              <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+
+            <h1 class="mt-6 font-display text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl">
+              <span class="text-gradient">Banking-grade</span>
+              <br />
+              <span class="text-accent-gradient">infrastructure</span>
+              <span class="text-gradient">for modern fintechs.</span>
+            </h1>
+
+            <p class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-ink-muted sm:text-lg">
+              Lattice is a single API for issuing cards, moving money, and staying compliant.
+              Ship products in days, not quarters — on rails built by people who actually ran a bank.
+            </p>
+
+            <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <a href="#contact" class="group inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-navy-900 shadow-glow transition hover:brightness-110">
+                Request a demo
+                <svg class="h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+              <a href="#product" class="inline-flex items-center gap-2 rounded-lg border border-border bg-navy-800/40 px-5 py-3 text-sm font-medium text-ink transition hover:border-border-strong hover:bg-navy-700/60">
+                See the platform
+              </a>
+            </div>
+
+            <div class="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-ink-dim">
+              <span class="inline-flex items-center gap-1.5">
+                <svg class="h-3.5 w-3.5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+                SOC 2 Type II
+              </span>
+              <span>PCI-DSS Level 1</span>
+              <span>ISO 27001</span>
+              <span>99.999% uptime SLA</span>
+            </div>
+          </div>
+
+          <div class="reveal mx-auto mt-16 max-w-5xl">
+            <div class="relative">
+              <div class="absolute -inset-4 -z-10 rounded-3xl bg-gradient-to-tr from-accent/30 via-sky-400/20 to-purple-500/20 blur-2xl"></div>
+              <div class="rounded-2xl border border-border bg-navy-800/80 p-2 shadow-card backdrop-blur">
+                <div class="flex items-center gap-1.5 px-3 py-2">
+                  <span class="h-2.5 w-2.5 rounded-full bg-red-400/80"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-yellow-400/80"></span>
+                  <span class="h-2.5 w-2.5 rounded-full bg-emerald-400/80"></span>
+                  <div class="ml-3 flex-1 truncate rounded-md border border-border bg-navy-900/60 px-3 py-1 text-[10px] text-ink-dim">
+                    console.lattice.dev/payments
+                  </div>
+                </div>
+                <div class="grid gap-3 p-4 sm:grid-cols-12">
+                  <!-- Sidebar -->
+                  <div class="sm:col-span-3">
+                    <div class="space-y-1 rounded-xl border border-border bg-navy-900/60 p-3">
+                      <div class="rounded-md px-3 py-2 text-xs text-ink-muted hover:bg-white/5">Overview</div>
+                      <div class="rounded-md px-3 py-2 text-xs bg-accent/10 text-accent">Payments</div>
+                      <div class="rounded-md px-3 py-2 text-xs text-ink-muted hover:bg-white/5">Cards</div>
+                      <div class="rounded-md px-3 py-2 text-xs text-ink-muted hover:bg-white/5">Ledger</div>
+                      <div class="rounded-md px-3 py-2 text-xs text-ink-muted hover:bg-white/5">Compliance</div>
+                      <div class="rounded-md px-3 py-2 text-xs text-ink-muted hover:bg-white/5">Webhooks</div>
+                      <div class="rounded-md px-3 py-2 text-xs text-ink-muted hover:bg-white/5">Settings</div>
+                    </div>
+                  </div>
+
+                  <!-- Main -->
+                  <div class="sm:col-span-9 space-y-3">
+                    <div class="grid grid-cols-3 gap-3">
+                      <div class="rounded-xl border border-border bg-navy-900/60 p-3">
+                        <div class="text-[10px] uppercase tracking-wider text-ink-dim">Volume / 24h</div>
+                        <div class="mt-1 font-display text-lg font-semibold text-ink">$8.42M</div>
+                        <div class="text-[10px] text-accent">+12.4%</div>
+                      </div>
+                      <div class="rounded-xl border border-border bg-navy-900/60 p-3">
+                        <div class="text-[10px] uppercase tracking-wider text-ink-dim">Auth rate</div>
+                        <div class="mt-1 font-display text-lg font-semibold text-ink">98.7%</div>
+                        <div class="text-[10px] text-accent">+0.6%</div>
+                      </div>
+                      <div class="rounded-xl border border-border bg-navy-900/60 p-3">
+                        <div class="text-[10px] uppercase tracking-wider text-ink-dim">Avg latency</div>
+                        <div class="mt-1 font-display text-lg font-semibold text-ink">42ms</div>
+                        <div class="text-[10px] text-accent">-8ms</div>
+                      </div>
+                    </div>
+
+                    <div class="rounded-xl border border-border bg-navy-900/60 p-4">
+                      <div class="mb-3 flex items-center justify-between">
+                        <div class="text-xs font-medium text-ink">Settlement throughput</div>
+                        <div class="text-[10px] text-ink-dim">Last 24 hours</div>
+                      </div>
+                      <svg viewBox="0 0 100 100" class="h-32 w-full" preserveAspectRatio="none">
+                        <defs>
+                          <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#6ee7a8" stop-opacity="0.4" />
+                            <stop offset="100%" stop-color="#6ee7a8" stop-opacity="0" />
+                          </linearGradient>
+                        </defs>
+                        <path d="M 0 92.8 L 6.67 85.6 L 13.33 89.2 L 20 78.4 L 26.67 82 L 33.33 71.2 L 40 74.8 L 46.67 60.4 L 53.33 67.6 L 60 49.6 L 66.67 56.8 L 73.33 38.8 L 80 46 L 86.67 24.4 L 93.33 31.6 L 100 10 L 100 100 L 0 100 Z" fill="url(#sparkFill)" />
+                        <path d="M 0 92.8 L 6.67 85.6 L 13.33 89.2 L 20 78.4 L 26.67 82 L 33.33 71.2 L 40 74.8 L 46.67 60.4 L 53.33 67.6 L 60 49.6 L 66.67 56.8 L 73.33 38.8 L 80 46 L 86.67 24.4 L 93.33 31.6 L 100 10" fill="none" stroke="#6ee7a8" stroke-width="1.2" />
+                      </svg>
+                    </div>
+
+                    <div class="rounded-xl border border-border bg-navy-900/60 p-4">
+                      <div class="mb-3 flex items-center justify-between">
+                        <div class="text-xs font-medium text-ink">Recent transactions</div>
+                        <div class="text-[10px] text-accent">Live</div>
+                      </div>
+                      <div class="divide-y divide-white/5 text-xs">
+                        <div class="flex items-center justify-between py-2">
+                          <div class="flex items-center gap-3">
+                            <span class="rounded-md border border-border px-1.5 py-0.5 font-mono text-[10px] text-ink-muted">txn_91f</span>
+                            <span class="text-ink-muted">Stripe Connect → Acme</span>
+                          </div>
+                          <div class="flex items-center gap-3">
+                            <span class="text-ink-dim">38ms</span>
+                            <span class="text-accent">+$24,500.00</span>
+                          </div>
+                        </div>
+                        <div class="flex items-center justify-between py-2">
+                          <div class="flex items-center gap-3">
+                            <span class="rounded-md border border-border px-1.5 py-0.5 font-mono text-[10px] text-ink-muted">txn_88a</span>
+                            <span class="text-ink-muted">Card auth · Visa ••4421</span>
+                          </div>
+                          <div class="flex items-center gap-3">
+                            <span class="text-ink-dim">31ms</span>
+                            <span class="text-accent">+$129.99</span>
+                          </div>
+                        </div>
+                        <div class="flex items-center justify-between py-2">
+                          <div class="flex items-center gap-3">
+                            <span class="rounded-md border border-border px-1.5 py-0.5 font-mono text-[10px] text-ink-muted">txn_77c</span>
+                            <span class="text-ink-muted">ACH credit · payroll</span>
+                          </div>
+                          <div class="flex items-center gap-3">
+                            <span class="text-ink-dim">44ms</span>
+                            <span class="text-accent">+$58,210.00</span>
+                          </div>
+                        </div>
+                        <div class="flex items-center justify-between py-2">
+                          <div class="flex items-center gap-3">
+                            <span class="rounded-md border border-border px-1.5 py-0.5 font-mono text-[10px] text-ink-muted">txn_71e</span>
+                            <span class="text-ink-muted">Refund · order #2293</span>
+                          </div>
+                          <div class="flex items-center gap-3">
+                            <span class="text-ink-dim">29ms</span>
+                            <span class="text-red-300">-$74.10</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ Logo Cloud ============================ -->
+      <section class="border-y border-border/60 bg-bg-subtle/40">
+        <div class="container-page py-12">
+          <p class="text-center text-xs uppercase tracking-[0.2em] text-ink-dim">
+            Trusted by treasury &amp; risk teams at
+          </p>
+          <div class="mt-6 grid grid-cols-2 items-center gap-x-10 gap-y-6 sm:grid-cols-3 lg:grid-cols-6">
+            <div class="text-center font-display text-lg font-semibold tracking-tight text-ink-muted/70 transition hover:text-ink">Northwind</div>
+            <div class="text-center font-display text-lg font-semibold tracking-tight text-ink-muted/70 transition hover:text-ink">Helix Bank</div>
+            <div class="text-center font-display text-lg font-semibold tracking-tight text-ink-muted/70 transition hover:text-ink">Cobalt</div>
+            <div class="text-center font-display text-lg font-semibold tracking-tight text-ink-muted/70 transition hover:text-ink">Parallel</div>
+            <div class="text-center font-display text-lg font-semibold tracking-tight text-ink-muted/70 transition hover:text-ink">Meridian</div>
+            <div class="text-center font-display text-lg font-semibold tracking-tight text-ink-muted/70 transition hover:text-ink">Foundry</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================= Features ============================= -->
+      <section id="features" class="py-24 sm:py-32">
+        <div class="container-page">
+          <div class="mx-auto max-w-2xl text-center">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">The platform</p>
+            <h2 class="mt-3 font-display text-4xl font-semibold tracking-tight text-gradient sm:text-5xl">
+              Everything a fintech needs.<br />Nothing it doesn't.
+            </h2>
+            <p class="mt-4 text-base text-ink-muted">
+              Six primitives that compose into nearly any product — from neobanks
+              and B2B spend platforms to embedded payouts.
+            </p>
+          </div>
+
+          <div class="mt-16 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <!-- Feature card template -->
+            <div class="group relative overflow-hidden rounded-2xl border border-border bg-navy-800/40 p-6 transition hover:border-border-strong hover:bg-navy-700/40">
+              <div class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent opacity-0 transition group-hover:opacity-100"></div>
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-navy-900/70 text-accent">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+              </div>
+              <h3 class="mt-5 font-display text-lg font-semibold text-ink">Issue cards in minutes</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-muted">
+                Virtual and physical cards with programmable controls — spend limits, MCC blocks, and 3DS, all behind a single endpoint.
+              </p>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl border border-border bg-navy-800/40 p-6 transition hover:border-border-strong hover:bg-navy-700/40">
+              <div class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent opacity-0 transition group-hover:opacity-100"></div>
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-navy-900/70 text-accent">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>
+              </div>
+              <h3 class="mt-5 font-display text-lg font-semibold text-ink">Move money on real rails</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-muted">
+                ACH, RTP, FedNow, SWIFT, and SEPA from day one. Settlement and reconciliation are baked into the ledger.
+              </p>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl border border-border bg-navy-800/40 p-6 transition hover:border-border-strong hover:bg-navy-700/40">
+              <div class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent opacity-0 transition group-hover:opacity-100"></div>
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-navy-900/70 text-accent">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+              <h3 class="mt-5 font-display text-lg font-semibold text-ink">Compliance, automated</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-muted">
+                KYC, KYB, sanctions, and ongoing monitoring with full audit trails — no spreadsheets, no homemade workflows.
+              </p>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl border border-border bg-navy-800/40 p-6 transition hover:border-border-strong hover:bg-navy-700/40">
+              <div class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent opacity-0 transition group-hover:opacity-100"></div>
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-navy-900/70 text-accent">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+              </div>
+              <h3 class="mt-5 font-display text-lg font-semibold text-ink">Observability you'll trust</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-muted">
+                Millisecond-resolution metrics, structured event logs, and replayable webhooks across every transaction.
+              </p>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl border border-border bg-navy-800/40 p-6 transition hover:border-border-strong hover:bg-navy-700/40">
+              <div class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent opacity-0 transition group-hover:opacity-100"></div>
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-navy-900/70 text-accent">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              </div>
+              <h3 class="mt-5 font-display text-lg font-semibold text-ink">Global by default</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-muted">
+                Issue and accept in 38 currencies. Localized risk models per market with no extra plumbing.
+              </p>
+            </div>
+
+            <div class="group relative overflow-hidden rounded-2xl border border-border bg-navy-800/40 p-6 transition hover:border-border-strong hover:bg-navy-700/40">
+              <div class="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent opacity-0 transition group-hover:opacity-100"></div>
+              <div class="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-navy-900/70 text-accent">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+              <h3 class="mt-5 font-display text-lg font-semibold text-ink">Built to be fast</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink-muted">
+                p99 authorisation under 60ms. The Lattice ledger is event-sourced and horizontally sharded by tenant.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================= Product Showcase ========================= -->
+      <section id="product" class="relative py-24 sm:py-32">
+        <div class="container-page">
+          <div class="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-20">
+            <div class="lg:col-span-5">
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Built for builders</p>
+              <h2 class="mt-3 font-display text-4xl font-semibold tracking-tight text-gradient sm:text-5xl">
+                One API. One ledger.<br />Zero surprises.
+              </h2>
+              <p class="mt-4 text-base leading-relaxed text-ink-muted">
+                Everything in Lattice posts to a single double-entry ledger,
+                so reconciliation and reporting are a query — not a quarterly project.
+              </p>
+              <ul class="mt-8 space-y-3">
+                <li class="flex items-start gap-3">
+                  <svg class="mt-0.5 h-5 w-5 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span class="text-sm text-ink">One ledger across cards, payments, and payouts</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="mt-0.5 h-5 w-5 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span class="text-sm text-ink">Webhooks with at-least-once delivery + DLQ</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="mt-0.5 h-5 w-5 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span class="text-sm text-ink">Full audit trail per transaction, queryable by lead</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="mt-0.5 h-5 w-5 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span class="text-sm text-ink">Sandbox parity with production, including BIN sponsorship</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="lg:col-span-7">
+              <div class="relative">
+                <div class="absolute -inset-3 -z-10 rounded-3xl bg-gradient-to-tr from-accent/20 via-sky-400/10 to-purple-500/10 blur-xl"></div>
+                <div class="overflow-hidden rounded-2xl border border-border bg-navy-900/70 shadow-card">
+                  <div class="flex items-center gap-2 border-b border-border bg-navy-800/60 px-4 py-2.5 text-[11px] text-ink-dim">
+                    <span class="h-2 w-2 rounded-full bg-red-400/80"></span>
+                    <span class="h-2 w-2 rounded-full bg-yellow-400/80"></span>
+                    <span class="h-2 w-2 rounded-full bg-emerald-400/80"></span>
+                    <span class="ml-2 font-mono">issue-card.ts</span>
+                  </div>
+<pre class="overflow-x-auto p-5 font-mono text-[12.5px] leading-relaxed text-ink-muted"><code><span class="text-purple-300">import</span> <span class="text-ink">{ Lattice }</span> <span class="text-purple-300">from</span> <span class="text-emerald-300">"@lattice/sdk"</span>;
+
+<span class="text-purple-300">const</span> <span class="text-ink">lattice</span> = <span class="text-purple-300">new</span> <span class="text-sky-300">Lattice</span>(<span class="text-ink">{ apiKey: process.env.LATTICE_KEY }</span>);
+
+<span class="text-purple-300">const</span> <span class="text-ink">card</span> = <span class="text-purple-300">await</span> <span class="text-ink">lattice.cards</span>.<span class="text-sky-300">issue</span>({
+  holder: <span class="text-ink">customerId</span>,
+  program: <span class="text-emerald-300">"corporate-spend"</span>,
+  controls: {
+    spendLimit: { amount: <span class="text-amber-300">500_00</span>, period: <span class="text-emerald-300">"monthly"</span> },
+    allowedMcc: [<span class="text-emerald-300">"5812"</span>, <span class="text-emerald-300">"5814"</span>],
+  },
+});
+
+<span class="text-ink-dim">// → card.id, card.last4, card.network — ready in &lt;200ms</span></code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================== Stats =============================== -->
+      <section class="relative py-20">
+        <div class="container-page">
+          <div class="rounded-3xl border border-border bg-gradient-to-br from-navy-800/60 to-navy-900/40 p-8 sm:p-12">
+            <div class="grid grid-cols-2 gap-8 lg:grid-cols-4">
+              <div>
+                <div class="font-display text-4xl font-semibold text-accent-gradient sm:text-5xl">
+                  <span class="counter" data-prefix="$" data-suffix="B" data-decimals="0" data-target="184">$0B</span>
+                </div>
+                <div class="mt-2 text-xs uppercase tracking-[0.18em] text-ink-dim">Processed annually</div>
+              </div>
+              <div>
+                <div class="font-display text-4xl font-semibold text-accent-gradient sm:text-5xl">
+                  <span class="counter" data-suffix="%" data-decimals="3" data-target="99.999">0.000%</span>
+                </div>
+                <div class="mt-2 text-xs uppercase tracking-[0.18em] text-ink-dim">Uptime SLA</div>
+              </div>
+              <div>
+                <div class="font-display text-4xl font-semibold text-accent-gradient sm:text-5xl">
+                  <span class="counter" data-suffix="ms" data-decimals="0" data-target="42">0ms</span>
+                </div>
+                <div class="mt-2 text-xs uppercase tracking-[0.18em] text-ink-dim">p99 authorisation</div>
+              </div>
+              <div>
+                <div class="font-display text-4xl font-semibold text-accent-gradient sm:text-5xl">
+                  <span class="counter" data-suffix="+" data-decimals="0" data-target="38">0+</span>
+                </div>
+                <div class="mt-2 text-xs uppercase tracking-[0.18em] text-ink-dim">Currencies supported</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ Testimonial ============================ -->
+      <section id="customers" class="py-24 sm:py-28">
+        <div class="container-page">
+          <div class="mx-auto max-w-3xl">
+            <div class="relative rounded-3xl border border-border bg-navy-800/40 p-8 sm:p-12">
+              <span class="absolute -top-4 left-8 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-bg p-2 text-accent">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/></svg>
+              </span>
+              <p class="font-display text-2xl leading-relaxed text-ink sm:text-3xl">
+                We rebuilt our payments stack on Lattice in six weeks. We launched
+                corporate cards in two more, and the ledger gave our finance team
+                <span class="text-accent-gradient">close-of-books in a day</span>
+                — down from eleven.
+              </p>
+              <div class="mt-8 flex items-center gap-4">
+                <div class="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-navy-900 text-sm font-semibold text-accent">MK</div>
+                <div>
+                  <div class="text-sm font-semibold text-ink">Maya Kapoor</div>
+                  <div class="text-xs text-ink-muted">VP Engineering · Northwind</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== Pricing ============================== -->
+      <section id="pricing" class="py-24 sm:py-32">
+        <div class="container-page">
+          <div class="mx-auto max-w-2xl text-center">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Pricing</p>
+            <h2 class="mt-3 font-display text-4xl font-semibold tracking-tight text-gradient sm:text-5xl">
+              Honest, usage-based pricing
+            </h2>
+            <p class="mt-4 text-base text-ink-muted">No interchange clawbacks, no surprise platform fees.</p>
+          </div>
+
+          <div class="mt-16 grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <div class="relative flex flex-col rounded-2xl border border-border bg-navy-800/40 p-7">
+              <div class="font-display text-base font-semibold text-ink">Starter</div>
+              <div class="mt-3 flex items-baseline gap-2">
+                <span class="font-display text-4xl font-semibold text-ink">$0</span>
+                <span class="text-xs text-ink-muted">for 90 days</span>
+              </div>
+              <p class="mt-3 text-sm text-ink-muted">For teams validating a new fintech idea. Sandbox plus production access on a generous free tier.</p>
+              <ul class="mt-6 space-y-2.5">
+                <li class="flex items-start gap-2 text-sm text-ink"><svg class="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Up to 1,000 transactions</li>
+                <li class="flex items-start gap-2 text-sm text-ink"><svg class="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Sandbox + production parity</li>
+                <li class="flex items-start gap-2 text-sm text-ink"><svg class="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Email support</li>
+                <li class="flex items-start gap-2 text-sm text-ink"><svg class="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Standard webhooks</li>
+              </ul>
+              <a href="#contact" class="mt-8 inline-flex items-center justify-center rounded-lg border border-border px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-border-strong hover:bg-navy-700/40">Start building</a>
+            </div>
+
+            <div class="relative flex flex-col rounded-2xl border border-accent/40 bg-gradient-to-b from-accent/[0.06] to-transparent shadow-glow p-7">
+              <div class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full border border-accent/40 bg-bg px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-accent">Most popular</div>
+              <div class="font-display text-base font-semibold text-ink">Scale</div>
+              <div class="mt-3 flex items-baseline gap-2">
+                <span class="font-display text-4xl font-semibold text-ink">$2,500</span>
+                <span class="text-xs text-ink-muted">/ month + usage</span>
+              </div>
+              <p class="mt-3 text-sm text-ink-muted">For teams in market. Includes BIN sponsorship, real-time payments, and a dedicated solutions engineer.</p>
+              <ul class="mt-6 space-y-2.5">
+                <li class="flex items-start gap-2 text-sm text-ink"><svg class="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Unlimited transactions</li>
+                <li class="flex items-start gap-2 text-sm text-ink"><svg class="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>BIN sponsorship included</li>
+                <li class="flex items-start gap-2 text-sm text-ink"><svg class="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>RTP, FedNow, ACH, SWIFT</li>
+                <li class="flex items-start gap-2 text-sm text-ink"><svg class="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Dedicated solutions engineer</li>
+                <li class="flex items-start gap-2 text-sm text-ink"><svg class="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>99.99% uptime SLA</li>
+              </ul>
+              <a href="#contact" class="mt-8 inline-flex items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-sm font-semibold text-navy-900 shadow-glow transition hover:brightness-110">Talk to sales</a>
+            </div>
+
+            <div class="relative flex flex-col rounded-2xl border border-border bg-navy-800/40 p-7">
+              <div class="font-display text-base font-semibold text-ink">Enterprise</div>
+              <div class="mt-3 flex items-baseline gap-2">
+                <span class="font-display text-4xl font-semibold text-ink">Custom</span>
+                <span class="text-xs text-ink-muted">annual contract</span>
+              </div>
+              <p class="mt-3 text-sm text-ink-muted">For regulated entities and platforms above $1B in flow. Co-engineered SLAs and direct access to risk.</p>
+              <ul class="mt-6 space-y-2.5">
+                <li class="flex items-start gap-2 text-sm text-ink"><svg class="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Custom commercial terms</li>
+                <li class="flex items-start gap-2 text-sm text-ink"><svg class="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>99.999% uptime SLA</li>
+                <li class="flex items-start gap-2 text-sm text-ink"><svg class="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Private cloud / VPC peering</li>
+                <li class="flex items-start gap-2 text-sm text-ink"><svg class="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>On-call risk &amp; compliance</li>
+                <li class="flex items-start gap-2 text-sm text-ink"><svg class="mt-0.5 h-4 w-4 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Quarterly business reviews</li>
+              </ul>
+              <a href="#contact" class="mt-8 inline-flex items-center justify-center rounded-lg border border-border px-4 py-2.5 text-sm font-semibold text-ink transition hover:border-border-strong hover:bg-navy-700/40">Contact us</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================ CTA ================================ -->
+      <section id="contact" class="relative py-24 sm:py-32">
+        <div class="absolute inset-0 -z-10 bg-grid-fade opacity-90"></div>
+        <div class="container-page">
+          <div class="grid gap-12 rounded-3xl border border-border bg-navy-800/40 p-8 lg:grid-cols-12 lg:gap-16 lg:p-14">
+            <div class="lg:col-span-6">
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Get a demo</p>
+              <h2 class="mt-3 font-display text-4xl font-semibold tracking-tight text-gradient sm:text-5xl">
+                See Lattice in your own sandbox.
+              </h2>
+              <p class="mt-4 text-base leading-relaxed text-ink-muted">
+                Tell us a bit about what you're building. We'll spin up a sandbox,
+                walk you through a flow that maps to your product, and share commercial
+                terms before you leave the call.
+              </p>
+              <ul class="mt-8 space-y-2 text-sm text-ink-muted">
+                <li>· 30-minute working session with a solutions engineer</li>
+                <li>· Live sandbox seeded with sample programs</li>
+                <li>· Indicative pricing within the same call</li>
+              </ul>
+            </div>
+
+            <div class="lg:col-span-6">
+              <div class="rounded-2xl border border-border bg-bg/60 p-6 sm:p-8">
+                <!-- Form (replaced by success state on submit) -->
+                <form id="lead-form" class="space-y-4" novalidate>
+                  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                      <label class="mb-1.5 block text-xs font-medium text-ink-muted">First name</label>
+                      <input name="firstName" autocomplete="given-name" required class="field" placeholder="Ada" />
+                    </div>
+                    <div>
+                      <label class="mb-1.5 block text-xs font-medium text-ink-muted">Last name</label>
+                      <input name="lastName" autocomplete="family-name" required class="field" placeholder="Lovelace" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="mb-1.5 block text-xs font-medium text-ink-muted">Work email</label>
+                    <input name="email" type="email" autocomplete="email" required class="field" placeholder="ada@yourcompany.com" />
+                  </div>
+
+                  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                      <label class="mb-1.5 block text-xs font-medium text-ink-muted">Company</label>
+                      <input name="company" autocomplete="organization" required class="field" placeholder="Acme Financial" />
+                    </div>
+                    <div>
+                      <label class="mb-1.5 block text-xs font-medium text-ink-muted">Title</label>
+                      <input name="title" autocomplete="organization-title" class="field" placeholder="Head of Payments" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="mb-1.5 block text-xs font-medium text-ink-muted">What are you trying to build?</label>
+                    <textarea name="message" rows="3" class="field" placeholder="Tell us about the use case…"></textarea>
+                  </div>
+
+                  <input type="hidden" name="leadSource" value="Website — Landing Page" />
+
+                  <button
+                    id="lead-submit"
+                    type="submit"
+                    class="group inline-flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3 text-sm font-semibold text-navy-900 shadow-glow transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    <span data-state="idle" class="inline-flex items-center gap-2">
+                      Request a demo
+                      <svg class="h-4 w-4 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </span>
+                    <span data-state="submitting" class="hidden items-center gap-2">
+                      <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                      Submitting…
+                    </span>
+                  </button>
+
+                  <div id="lead-error" class="hidden items-start gap-2 rounded-lg border border-red-500/30 bg-red-500/5 p-3 text-xs text-red-300">
+                    <svg class="mt-0.5 h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                    <span id="lead-error-message"></span>
+                  </div>
+
+                  <p class="text-center text-[11px] leading-relaxed text-ink-dim">
+                    By submitting you agree to receive product updates. Visitor activity is tracked via Marketo Munchkin on this development site.
+                  </p>
+                </form>
+
+                <div id="lead-success" class="hidden rounded-2xl border border-accent/30 bg-accent/5 p-8 text-center">
+                  <svg class="mx-auto mb-3 h-10 w-10 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  <h3 class="font-display text-xl font-semibold text-ink">Request received</h3>
+                  <p id="lead-success-message" class="mt-2 text-sm text-ink-muted"></p>
+                  <p class="mt-3 text-[11px] text-ink-dim">
+                    Call <code class="text-accent">/api/marketo/resolve-visitor</code>
+                    to verify the cookie → lead association.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== Footer ============================== -->
+      <footer class="border-t border-border bg-bg">
+        <div class="container-page py-16">
+          <div class="grid gap-10 lg:grid-cols-12">
+            <div class="lg:col-span-4">
+              <div class="flex items-center gap-2">
+                <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="footerLogo" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#6ee7a8" />
+                      <stop offset="100%" stop-color="#38bdf8" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M16 40 L32 14 L48 40 Z" fill="url(#footerLogo)" />
+                  <path d="M22 44 H42" stroke="url(#footerLogo)" stroke-width="4" stroke-linecap="round" />
+                </svg>
+                <span class="font-display text-base font-semibold tracking-tight text-ink">Lattice</span>
+              </div>
+              <p class="mt-4 max-w-sm text-sm text-ink-muted">
+                Banking-grade infrastructure for modern fintechs. Built in San Francisco and London.
+              </p>
+              <p class="mt-6 text-xs text-ink-dim">© <span id="footer-year"></span> Lattice Financial Technologies, Inc.</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-8 lg:col-span-8 lg:grid-cols-4">
+              <div>
+                <div class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-dim">Product</div>
+                <ul class="mt-4 space-y-2.5">
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">Cards</a></li>
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">Payments</a></li>
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">Ledger</a></li>
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">Compliance</a></li>
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">Webhooks</a></li>
+                </ul>
+              </div>
+              <div>
+                <div class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-dim">Developers</div>
+                <ul class="mt-4 space-y-2.5">
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">Documentation</a></li>
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">API reference</a></li>
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">Status</a></li>
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">Changelog</a></li>
+                </ul>
+              </div>
+              <div>
+                <div class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-dim">Company</div>
+                <ul class="mt-4 space-y-2.5">
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">About</a></li>
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">Customers</a></li>
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">Careers</a></li>
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">Press</a></li>
+                </ul>
+              </div>
+              <div>
+                <div class="text-xs font-semibold uppercase tracking-[0.18em] text-ink-dim">Legal</div>
+                <ul class="mt-4 space-y-2.5">
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">Terms</a></li>
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">Privacy</a></li>
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">Security</a></li>
+                  <li><a href="#" class="text-sm text-ink-muted transition hover:text-ink">DPA</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script src="/script.js"></script>
+
+    <!-- AI Seller (mirrors original Next.js layout) -->
+    <script src="https://d33t2173eag6fx.cloudfront.net/script/dev/inbound-se-script/ai-seller.js" async></script>
+    <script>
+      window.AISeller = window.AISeller || [];
+      window.AISeller.push({ agent_id: "e4e2cc8e-4d25-4443-a4a1-05dbd5fc7298" });
+    </script>
+  </body>
+</html>

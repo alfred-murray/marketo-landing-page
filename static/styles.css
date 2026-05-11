@@ -1,0 +1,111 @@
+/*
+ * Hand-written CSS — mirrors the original `app/globals.css` and the few custom
+ * utilities that aren't covered by the Tailwind Play CDN (`container-page`,
+ * `text-gradient`, `text-accent-gradient`, `grid-bg`, `ring-divider`).
+ */
+
+:root {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto;
+  --font-display: "Inter", ui-sans-serif, system-ui;
+  --font-mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, monospace;
+}
+
+html,
+body {
+  background-color: #05070d;
+  color: #e7ecf5;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background: rgba(110, 231, 168, 0.35);
+  color: #fff;
+}
+
+/* Custom utilities re-implemented from app/globals.css. */
+.container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem; /* matches max-w-7xl */
+  padding-inline: 1.5rem;
+}
+@media (min-width: 1024px) {
+  .container-page {
+    padding-inline: 2rem;
+  }
+}
+
+.text-gradient {
+  background: linear-gradient(180deg, #f5f7fb 0%, #93a1bf 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.text-accent-gradient {
+  background: linear-gradient(135deg, #6ee7a8 0%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.ring-divider {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* Lead-form input style — was a Tailwind class string in MarketoForm.tsx. */
+.field {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: rgba(10, 14, 24, 0.6);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #e7ecf5;
+}
+.field::placeholder {
+  color: #5e6a85;
+}
+.field:focus {
+  outline: none;
+  border-color: rgba(110, 231, 168, 0.5);
+  box-shadow: 0 0 0 2px rgba(110, 231, 168, 0.2);
+}
+
+/* Reveal-on-load (replaces framer-motion's initial={opacity:0,y:12}). */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal:nth-of-type(2) {
+  transition-delay: 150ms;
+}

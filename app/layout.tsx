@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { MunchkinScript } from "./components/MunchkinScript";
+import { AISellerScript } from "./components/AISellerScript";
 
 export const metadata: Metadata = {
   title: "Lattice — Banking-grade infrastructure for modern fintechs",
@@ -33,6 +34,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className="min-h-screen bg-bg text-ink antialiased">
         <MunchkinScript />
+        <AISellerScript />
         {children}
       </body>
     </html>
