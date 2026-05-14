@@ -17,6 +17,10 @@ declare global {
 const DEFAULT_AGENT_ID = "e4e2cc8e-4d25-4443-a4a1-05dbd5fc7298";
 const AGENT_ID_QUERY_PARAM = "agent_id";
 
+const DEFAULT_SANDBOX = "sandbox-marketo-integration-v0";
+const SANDBOX_QUERY_PARAM = "sandbox";
+const SANDBOX_ALLOWED_PATTERN = "^[A-Za-z0-9_-]+$";
+
 export function AISellerScript() {
   return (
     <Script id="ai-seller-loader" strategy="afterInteractive">
@@ -25,7 +29,12 @@ export function AISellerScript() {
           var w = window;
           var params = new URLSearchParams(w.location.search);
           var agentId = params.get('${AGENT_ID_QUERY_PARAM}') || '${DEFAULT_AGENT_ID}';
+          var sandboxParam = params.get('${SANDBOX_QUERY_PARAM}');
+          var sandbox = (sandboxParam && new RegExp('${SANDBOX_ALLOWED_PATTERN}').test(sandboxParam))
+            ? sandboxParam
+            : '${DEFAULT_SANDBOX}';
           w.AISellerSettings = { agent_id: agentId };
+          w.__AISellerSandbox = sandbox;
         })();
         (function () {
           var w = window;
@@ -42,7 +51,7 @@ export function AISellerScript() {
               var s = d.createElement('script');
               s.type = 'text/javascript';
               s.async = true;
-              s.src = 'https://d33t2173eag6fx.cloudfront.net/script/sandbox-marketo-integration-v0/inbound-se-script/ai-seller.js';
+              s.src = 'https://d33t2173eag6fx.cloudfront.net/script/' + w.__AISellerSandbox + '/inbound-se-script/ai-seller.js';
               var x = d.getElementsByTagName('script')[0];
               x.parentNode.insertBefore(s, x);
             };
